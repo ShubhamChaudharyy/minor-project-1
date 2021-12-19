@@ -107,14 +107,13 @@ export default function CustomPaginationActionsTable({
     setPage(0);
   };
 
-  const handleMLModel = async (obj,filename,format) => {
+  const handleMLModel = async (obj,filename,format,type) => {
     const namespace = filename.split('.');
-    const lelem = namespace.pop();
-    const data = await fetch(`http://localhost:5000/run-model/get/${namespace.join('.')}/${format}`,
+    const elem = namespace.pop();
+    const data = await fetch(`http://localhost:5000/run-model/get/${namespace.join('.')}/${format}/${type}`,
       {
-        crossDomain:true,
         method: 'GET',
-      // headers: {'Content-Type':'application/json'},
+        crossDomain: true
       }
     )
     .then((result)=>result.json())
@@ -135,18 +134,8 @@ export default function CustomPaginationActionsTable({
                 {row.name}
               </TableCell>
               <TableCell component="th" scope="row">
-                <Button variant="contained" onClick={()=>handleMLModel(row,row.name,row.format)}>
-                  XRAY
-                </Button>
-              </TableCell>
-              <TableCell component="th" scope="row">
-                <Button variant="contained">
-                  ECG
-                </Button>
-              </TableCell>
-              <TableCell component="th" scope="row">
-                <Button variant="contained">
-                  CT SCAN
+                <Button variant="contained" onClick={()=>handleMLModel(row,row.name,row.format,row.type)}>
+                  {row.type}
                 </Button>
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
